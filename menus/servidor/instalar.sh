@@ -157,43 +157,6 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 log_info "Starting VPS setup for vps-3026dd85.vps.ovh.net..."
-
-
-
-
-echo "Criar novo sudo user ospro..."
-USERNAME=ospro
-# Add the new user (and give them sudo privileges).
-useradd --create-home --shell "/bin/bash" --groups sudo "${USERNAME}"
-# Force a password to be set for the new user the first time they log in.
-passwd --delete "${USERNAME}" 
-chage --lastday 0 "${USERNAME}"
-# Copy the SSH keys from the root user to the new user.
-rsync --archive --chown=${USERNAME}:${USERNAME} /root/.ssh /home/${USERNAME}
-
-read -s -n 1 -p "Press any key to continuar!"
-
-# Set $chostname to current hostname 
-chostname=$(cat /etc/hostname)
-hostname="host.ospro.pt"
-# Display current hostname
-echo "Current hostname1 is '$chostname'"
-echo "Current hostname2 is '$hostname'"
-
-# Set $newhostname as new hostname 
-echo "Enter new hostname: "
-read newhostname
-
-# Change the hostname value in /etc/hostname and /etc/hosts files
-sudo sed -i "s/$chostname/$newhostname/g" /etc/hostname
-sudo sed -i "s/$chostname/$newhostname/g" /etc/hosts
-sudo sed -i "s/$hostname/$newhostname/g" /etc/hosts
-
-# Display new hostname
-echo "Your new hostname is $newhostname"
-
-read -s -n 1 -p "Press any key to continuar 1!"
-
 # Update system packages
 log_info "Updating package lists and upgrading system..."
 sudo apt update -y
@@ -207,7 +170,7 @@ sudo apt update -y
 
 titulo "Instalar pacotes do sistema..."
 log_info "Installing required packages..."
-sudo DEBIAN_FRONTEND=noninteractive apt install -y \
+DEBIAN_FRONTEND=noninteractive apt.get install -y \
     ufw \
     net-tools \
     nginx \
@@ -236,9 +199,9 @@ ufw allow 21/tcp
 ufw allow 8080/tcp 
 ufw allow 8443/tcp 
 ufw allow 9000/tcp 
-sudo ufw allow 'Nginx Full'
-sudo ufw allow OpenSSH
-sudo ufw --force enable
+ufw allow 'Nginx Full'
+ufw allow OpenSSH
+ufw --force enable
 
 log_info "Configuring iptables..."
 sudo iptables -I INPUT 1 -p tcp --dport 21 -j ACCEPT
@@ -251,21 +214,18 @@ sudo iptables -I INPUT 1 -p tcp --dport 9000 -j ACCEPT
 
 read -s -n 1 -p "Press any key to continuar 3!"
 
-
-
-
 SPTH='/home/ubuntu/linux/menus/servidor/'
 
 # Obtain SSL certificate
 log_info "Obtaining SSL certificate for cloudflare..."
-sudo mv /home/ubuntu/linux/menus/servidor/ssl/ospro.pt.pem /etc/ssl/certs/
-sudo mv /home/ubuntu/linux/menus/servidor/ssl/ospro.pt.key /etc/ssl/private/
+sudo cp /home/ubuntu/linux/menus/servidor/ssl/ospro.pt.pem /etc/ssl/certs/
+sudo cp /home/ubuntu/linux/menus/servidor/ssl/ospro.pt.key /etc/ssl/private/
 sudo chmod 644 /etc/ssl/certs/ospro.pt.pem
 sudo chmod 640 /etc/ssl/private/ospro.pt.key
 
 log_info "Obtaining SSL certificate for ospro.pt..."
-sudo mv /home/ubuntu/linux/menus/servidor/ssl/fullchain.cer /etc/ssl/certs/fullchain.cer
-sudo mv /home/ubuntu/linux/menus/servidor/ssl/private.key /etc/ssl/private/private.key
+sudo cp /home/ubuntu/linux/menus/servidor/ssl/fullchain.cer /etc/ssl/certs/fullchain.cer
+sudo cp /home/ubuntu/linux/menus/servidor/ssl/private.key /etc/ssl/private/private.key
 sudo chmod 644 /etc/ssl/certs/fullchain.cer
 sudo chmod 640 /etc/ssl/private/private.key
 
@@ -335,5 +295,6 @@ fi
 
 echo "Script complete! Rebooting..." 
 read -s -n 1 -p "Press any key to reboot!"
-reboot
+#reboot
+systemctl restart nginx
 
