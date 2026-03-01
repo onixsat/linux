@@ -6,12 +6,12 @@ read -r -d '' ENV_VAR_MENU << EOM
 EOM
 createMenu "menuServidor" "$ENV_VAR_MENU"
 addMenuItem "menuServidor" "Iniciar" showInativo "Iniciar"
-addMenuItem "menuServidor" "Instalar" showInativo "Instalar"
+addMenuItem "menuServidor" "Instalar" showInstalar2 "Instalar"
 addMenuItem "menuServidor" "Configuracao" loadMenu "menuConfig"
 
 source menus/servidor/config.sh
 
-function showInstalar(){
+function showInstalar2(){
 	banner "Servidor" "$1" "Instalar"
     
     if @confirm 'Confirma que quer instalar?' ; then
@@ -31,5 +31,6 @@ function showInativo(){
 	reload "return" "menuServidor"
 	pause
 }
+
 
 
