@@ -1,127 +1,4 @@
 #!/bin/bash
-
-BOOTUP=color
-RES_COL=60
-MOVE_TO_COL="echo -en \\033[${RES_COL}G"
-SETCOLOR_SUCCESS="echo -en \\033[1;32m"
-SETCOLOR_FAILURE="echo -en \\033[1;31m"
-SETCOLOR_WARNING="echo -en \\033[1;33m"
-SETCOLOR_NORMAL="echo -en \\033[0;39m"
-echo_success() {
-    [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
-    echo -n "["
-    [ "$BOOTUP" = "color" ] && $SETCOLOR_SUCCESS
-    echo -n $"  OK  "
-    [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
-    echo -n "]"
-    echo -ne "\r"
-    return 0
-}
-echo_failure() {
-    [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
-    echo -n "["
-    [ "$BOOTUP" = "color" ] && $SETCOLOR_FAILURE
-    echo -n $"FAILED"
-    [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
-    echo -n "]"
-    echo -ne "\r"
-    return 1
-}
-echo_passed() {
-    [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
-    echo -n "["
-    [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
-    echo -n $"PASSED"
-    [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
-    echo -n "]"
-    echo -ne "\r"
-    return 1
-}
-echo_warning() {
-    [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
-    echo -n "["
-    [ "$BOOTUP" = "color" ] && $SETCOLOR_WARNING
-    echo -n $"WARNING"
-    [ "$BOOTUP" = "color" ] && $SETCOLOR_NORMAL
-    echo -n "]"
-    echo -ne "\r"
-    return 1
-} 
-step() {
-    echo -n "$@"
-    STEP_OK=0
-    [[ -w /tmp ]] && echo $STEP_OK > /tmp/step.$$
-}
-try() { # Check for `-b' argument to run command in the background.
-    local BG=
-    [[ $1 == -b ]] && { BG=1; shift; }
-    [[ $1 == -- ]] && {       shift; }
-    # Run the command.
-    if [[ -z $BG ]]; then
-        "$@"
-    else
-        "$@" &
-    fi
-    # Check if command failed and update $STEP_OK if so.
-    local EXIT_CODE=$?
-
-    if [[ $EXIT_CODE -ne 0 ]]; then
-        STEP_OK=$EXIT_CODE
-        [[ -w /tmp ]] && echo $STEP_OK > /tmp/step.$$
-
-        if [[ -n $LOG_STEPS ]]; then
-            local FILE=$(readlink -m "${BASH_SOURCE[1]}")
-            local LINE=${BASH_LINENO[0]}
-
-            echo "$FILE: line $LINE: Command \`$*' failed with exit code $EXIT_CODE." >> "$LOG_STEPS"
-        fi
-    fi
-
-    return $EXIT_CODE
-}
-next() {
-    [[ -f /tmp/step.$$ ]] && { STEP_OK=$(< /tmp/step.$$); rm -f /tmp/step.$$; }
-    [[ $STEP_OK -eq 0 ]]  && echo_success || echo_failure
-    echo -e ""
-    return $STEP_OK
-}
-function add(){
-    start_time2=$(date +%s%3N)
-    
-    arg1=$1
-    arg2=$2
-    step "${arg1}"
-        if [[ $3 != '' ]]; then
-            try ${arg2} >/dev/null 2>&1 &
-        else         
-           try ${arg2}
-        fi
-    next
-    
-    end_time2=$(date +%s%3N)
-    duration_ms2=$((end_time2 - start_time2))
-    echo -e "Execution: $duration_ms2"
-}
-#add "Atualizar" "sudo apt update" "1"
-#read -n 1 -s -p "Press any key to continue 1"
-#add "Atualizar" "sudo apt update"
-#read -n 1 -s -p "Press any key to continue 2"
-#add "Instalar dnf" "sudo apt install dnf" "1"
-#read -n 1 -s -p "Press any key to continue 3"
-#add "Instalar dos2unix" "sudo apt install dos2unix -y" "1"
-#read -n 1 -s -p "Press any key to continue 4 "
-#add "Instalar nginx" "sudo apt install nginx nginx-full -y" "1"
-#add "Instalar ufw" "sudo apt install ufw -y" "1"
-#add "Instalar iptables" "sudo apt install iptables-persistent -y" "1"
-#step "Ficheiro data.txt"
-#    try echo 'This is a test' > data.txt
-    #try mv file.txt data.txt
-#    try echo 'yet another line' >> data.txt
-#next
-
-
-
-
 set -eu #set -euo pipefail
 TIMEZONE=Africa/Lagos
 export LC_ALL=en_US.UTF-8
@@ -157,42 +34,6 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 log_info "Starting VPS setup for vps-3026dd85.vps.ovh.net..."
-
-
-
-
-echo "Criar novo sudo user ospro..."
-USERNAME=ospro
-# Add the new user (and give them sudo privileges).
-useradd --create-home --shell "/bin/bash" --groups sudo "${USERNAME}"
-# Force a password to be set for the new user the first time they log in.
-passwd --delete "${USERNAME}" 
-chage --lastday 0 "${USERNAME}"
-# Copy the SSH keys from the root user to the new user.
-rsync --archive --chown=${USERNAME}:${USERNAME} /root/.ssh /home/${USERNAME}
-
-read -s -n 1 -p "Press any key to continuar!"
-
-# Set $chostname to current hostname 
-chostname=$(cat /etc/hostname)
-hostname="host.ospro.pt"
-# Display current hostname
-echo "Current hostname1 is '$chostname'"
-echo "Current hostname2 is '$hostname'"
-
-# Set $newhostname as new hostname 
-echo "Enter new hostname: "
-read newhostname
-
-# Change the hostname value in /etc/hostname and /etc/hosts files
-sudo sed -i "s/$chostname/$newhostname/g" /etc/hostname
-sudo sed -i "s/$chostname/$newhostname/g" /etc/hosts
-sudo sed -i "s/$hostname/$newhostname/g" /etc/hosts
-
-# Display new hostname
-echo "Your new hostname is $newhostname"
-
-read -s -n 1 -p "Press any key to continuar 1!"
 
 # Update system packages
 log_info "Updating package lists and upgrading system..."
@@ -334,4 +175,5 @@ fi
 echo "Script complete! Rebooting..." 
 read -s -n 1 -p "Press any key to reboot!"
 reboot
+
 
