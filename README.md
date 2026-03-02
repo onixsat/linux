@@ -27,7 +27,7 @@
 
 <h2 style="font-style:italic;">Instalação</h2>
 <h6 style="font-style:italic;">Executar os comandos para instalar o sistema.</h6>
-/etc/nginx/nginx.conf
+
 ```bash
   sudo su
   sudo apt update -y
