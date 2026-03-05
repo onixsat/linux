@@ -275,25 +275,25 @@ fi
 
 read -s -n 1 -p "Press any key to continuar 5!"
 
-echo "Configurar nginx files..."
-if [ -d "/var/www/stream" ] 
-then
-    echo "Directory /var/www/stream exists." 
-    sudo rm -r /var/www/stream
-    echo "Directory /var/www/stream removido." 
-fi
+#echo "Configurar nginx files..."
+#if [ -d "/var/www/stream" ] 
+#then
+#    echo "Directory /var/www/stream exists." 
+#    sudo rm -r /var/www/stream
+#    echo "Directory /var/www/stream removido." 
+#fi
 
-echo "Copiar nginx files..."
-sudo mkdir /var/www/stream
-chmod -R 777 /var/www/stream/*
+#echo "Copiar nginx files..."
+#sudo mkdir /var/www/stream
+#chmod -R 777 /var/www/stream/*
 #sudo cp /home/ubuntu/linux/menus/servidor/www/stream/* /var/www/stream/
 #sudo cp /home/ubuntu/linux/menus/servidor/sites-available/* /etc/nginx/sites-available/
 #sudo cp /home/ubuntu/linux/menus/servidor/sites-enabled/* /etc/nginx/sites-enabled/
 
-echo "Setting secure permissions..."
-chown -R www-data:www-data /var/www/stream
+#echo "Setting secure permissions..."
+#chown -R www-data:www-data /var/www/stream
 #chown -R www-data:www-data /var/www/html
-chmod -R 777 /var/www/stream/*
+#chmod -R 777 /var/www/stream/*
 #chmod -R 777 /var/www/html/*
 
 read -s -n 1 -p "Press any key to continuar 5!"
