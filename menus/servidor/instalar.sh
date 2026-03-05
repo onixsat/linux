@@ -168,7 +168,7 @@ log_info "Adding Ondrej PHP PPA..."
 sudo add-apt-repository ppa:ondrej/php -y
 sudo apt update -y
 
-titulo "Instalar pacotes do sistema..."
+#titulo "Instalar pacotes do sistema..."
 log_info "Installing required packages..."
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ufw \
@@ -186,7 +186,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     curl
 
 echo "${WHITE}Pacotes instalados!"
-esperar "sleep 5" "${WHITE}completo! "
+#esperar "sleep 5" "${WHITE}completo! "
 
 read -s -n 1 -p "Press any key to continuar 2!"
 
@@ -297,5 +297,6 @@ echo "Script complete! Rebooting..."
 read -s -n 1 -p "Press any key to reboot!"
 #reboot
 systemctl restart nginx
+
 
 
