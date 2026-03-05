@@ -170,7 +170,7 @@ sudo apt update -y
 
 titulo "Instalar pacotes do sistema..."
 log_info "Installing required packages..."
-DEBIAN_FRONTEND=noninteractive apt.get install -y \
+DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ufw \
     net-tools \
     nginx \
@@ -297,4 +297,5 @@ echo "Script complete! Rebooting..."
 read -s -n 1 -p "Press any key to reboot!"
 #reboot
 systemctl restart nginx
+
 
