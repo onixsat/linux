@@ -251,11 +251,11 @@ wget -q $URL_BO_CONF -O bo.conf
 wget -q $URL_LB_CONF -O lb.conf
 
 # 2. Create backups of the existing configuration files
-echo "Creating backups of current configurations..."
-sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bkp2 || echo "Warning: /etc/nginx/nginx.conf not found."
-sudo cp /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.bkp2 || echo "Warning: /etc/nginx/sites-enabled/default not found."
-sudo cp /etc/nginx/sites-available/bo.conf /etc/nginx/sites-available/bo.conf.bkp2 || echo "Warning: /etc/nginx/sites-available/bo.conf not found."
-sudo cp /etc/nginx/sites-available/lb.conf /etc/nginx/sites-available/lb.conf.bkp2 || echo "Warning: /etc/nginx/sites-available/lb.conf not found."
+#echo "Creating backups of current configurations..."
+#sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bkp2 || echo "Warning: /etc/nginx/nginx.conf not found."
+#sudo cp /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.bkp2 || echo "Warning: /etc/nginx/sites-enabled/default not found."
+#sudo cp /etc/nginx/sites-available/bo.conf /etc/nginx/sites-available/bo.conf.bkp2 || echo "Warning: /etc/nginx/sites-available/bo.conf not found."
+#sudo cp /etc/nginx/sites-available/lb.conf /etc/nginx/sites-available/lb.conf.bkp2 || echo "Warning: /etc/nginx/sites-available/lb.conf not found."
 
 # 3. Apply the new configuration files
 echo "Applying new configuration files..."
