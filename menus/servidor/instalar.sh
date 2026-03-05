@@ -185,7 +185,7 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     fail2ban \
     curl
 
-echo "${WHITE}Pacotes instalados!"
+echo "Pacotes instalados!"
 #esperar "sleep 5" "${WHITE}completo! "
 
 read -s -n 1 -p "Press any key to continuar 2!"
@@ -297,6 +297,7 @@ echo "Script complete! Rebooting..."
 read -s -n 1 -p "Press any key to reboot!"
 #reboot
 systemctl restart nginx
+
 
 
 
