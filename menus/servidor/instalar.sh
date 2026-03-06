@@ -1,19 +1,25 @@
 #!/bin/bash
 
-add "Atualizar" "sudo apt update"
-read -n 1 -s -p "Press any key to continue 1"
-
 # Update system packages
 log_info "Updating package lists and upgrading system..."
-sudo apt update -y
-sudo apt upgrade -y
-sudo apt --yes -o Dpkg::Options::="--force-confnew" upgrade
+add "Atualizar" "sudo apt update -y" "1"
+add "Atualizar" "sudo apt upgrade -y" "1"
+
+step "Ficheiro data.txt"
+    try echo 'This is a test' > data.txt
+    #try mv file.txt data.txt
+    try echo 'yet another line' >> data.txt
+next
+
+
+#sudo apt --yes -o Dpkg::Options::="--force-confnew" upgrade
 
 # Add PHP PPA BEFORE installing PHP packages
-log_info "Adding Ondrej PHP PPA..."
-sudo add-apt-repository ppa:ondrej/php -y
-sudo apt update -y
-
+#log_info "Adding Ondrej PHP PPA..."
+#sudo add-apt-repository ppa:ondrej/php -y
+#sudo apt update -y
+read -n 1 -s -p "Press any key to continue 2"
+clear
 titulo "Instalar pacotes do sistema..."
 log_info "Installing required packages..."
 DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -33,7 +39,9 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
 
 echo "Pacotes instalados!"
 esperar "sleep 5" "${WHITE}completo! "
-read -s -n 1 -p "Press any key to continuar 2!"
+
+read -s -n 1 -p "Press any key to continuar 3!"
+clear
 
 # Configure UFW (Uncomplicated Firewall)
 log_info "Configuring UFW..."
@@ -48,6 +56,9 @@ ufw allow 'Nginx Full'
 ufw allow OpenSSH
 ufw --force enable
 
+read -n 1 -s -p "Press any key to continue 4"
+clear
+
 log_info "Configuring iptables..."
 sudo iptables -I INPUT 1 -p tcp --dport 21 -j ACCEPT
 sudo iptables -I INPUT 1 -p tcp --dport 22 -j ACCEPT
@@ -57,6 +68,8 @@ sudo iptables -I INPUT 1 -p tcp --dport 8080 -j ACCEPT
 sudo iptables -I INPUT 1 -p tcp --dport 8443 -j ACCEPT
 sudo iptables -I INPUT 1 -p tcp --dport 9000 -j ACCEPT
 
+read -n 1 -s -p "Press any key to continue 5"
+clear
 # Install Nginx UI
 echo "Installing Nginx U..." 
 log_info "Installing Nginx UI..."
@@ -66,6 +79,9 @@ if ! command -v nginx-ui &> /dev/null; then
 else
     log_warn "Nginx UI already installed, skipping..."
 fi
+
+read -n 1 -s -p "Press any key to continue 61"
+clear
 
 echo "Script complete! Rebooting..." 
 read -s -n 1 -p "Press any key to reboot!"
