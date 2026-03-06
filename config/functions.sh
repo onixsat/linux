@@ -13,6 +13,39 @@ function globais(){
 }
 
 #./etc/init.d/functions
+
+
+
+RED2='\033[0;31m'
+GREEN2='\033[0;32m'
+YELLOW2='\033[1;33m'
+NC='\033[0m'
+
+log_info() {
+    echo -e "${GREEN2}[INFO]${NC} $1"
+}
+log_warn() {
+    echo -e "${YELLOW2}[WARN]${NC} $1"
+}
+log_error() {
+    echo -e "${RED2}[ERROR]${NC} $1" >&2
+}
+cleanup() {
+    local code=$?
+    if [ $code -ne 0 ]; then
+        log_error "Script failed with exit code $code at line $LINENO"
+    fi
+    echo $code
+}
+trap cleanup ERR
+if [ "$EUID" -ne 0 ]; then 
+    log_error "Please run as root or with sudo"
+    exit 1
+fi
+
+
+
+
 BOOTUP=color
 RES_COL=60
 MOVE_TO_COL="echo -en \\033[${RES_COL}G"
@@ -20,6 +53,47 @@ SETCOLOR_SUCCESS="echo -en \\033[1;32m"
 SETCOLOR_FAILURE="echo -en \\033[1;31m"
 SETCOLOR_WARNING="echo -en \\033[1;33m"
 SETCOLOR_NORMAL="echo -en \\033[0;39m"
+
+function add(){
+    start_time2=$(date +%s%3N)
+    
+    arg1=$1
+    arg2=$2
+    step "${arg1}"
+        if [[ $3 != '' ]]; then
+            try ${arg2} >/dev/null 2>&1 &
+        else         
+           try ${arg2}
+        fi
+    next
+    
+    end_time2=$(date +%s%3N)
+    duration_ms2=$((end_time2 - start_time2))
+    echo -e "Execution: $duration_ms2"
+}
+
+
+
+get_script_dir(){
+    local SOURCE_PATH="${BASH_SOURCE[0]}"
+    local SYMLINK_DIR
+    local SCRIPT_DIR
+    # Resolve symlinks recursively
+    while [ -L "$SOURCE_PATH" ]; do
+        # Get symlink directory
+        SYMLINK_DIR="$( cd -P "$( dirname "$SOURCE_PATH" )" >/dev/null 2>&1 && pwd )"
+        # Resolve symlink target (relative or absolute)
+        SOURCE_PATH="$(readlink "$SOURCE_PATH")"
+        # Check if candidate path is relative or absolute
+        if [[ $SOURCE_PATH != /* ]]; then
+            # Candidate path is relative, resolve to full path
+            SOURCE_PATH=$SYMLINK_DIR/$SOURCE_PATH
+        fi
+    done
+    # Get final script directory path from fully resolved source path
+    SCRIPT_DIR="$(cd -P "$( dirname "$SOURCE_PATH" )" >/dev/null 2>&1 && pwd)"
+    echo "$SCRIPT_DIR"
+}
 
 echo_success() {
     [ "$BOOTUP" = "color" ] && $MOVE_TO_COL
