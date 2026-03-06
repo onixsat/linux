@@ -11,7 +11,6 @@ step "Ficheiro data.txt"
     try echo 'yet another line' >> data.txt
 next
 
-
 #sudo apt --yes -o Dpkg::Options::="--force-confnew" upgrade
 
 # Add PHP PPA BEFORE installing PHP packages
