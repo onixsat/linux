@@ -89,9 +89,10 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     fail2ban \
     curl
 
+read -s -n 1 -p "Press any key to continuar xxxx!"
+clear
 echo "Pacotes instalados!"
-esperar "sleep 5" "${WHITE}completo! "
-
+esperar2 "sleep 5" "Instalando..." " ${WHITE} completo!"
 read -s -n 1 -p "Press any key to continuar 3!"
 clear
 
@@ -135,7 +136,7 @@ else
     log_warn "Nginx UI already installed, skipping..."
 fi
 
-esperar "sleep 5" "Atualizando..." " ${WHITE} Atualizado!"
+esperar2 "sleep 5" "Atualizando..." " ${WHITE} Atualizado!"
 
 read -n 1 -s -p "Press any key to continue 61"
 clear
