@@ -127,15 +127,11 @@ clear
 
 # Install Nginx UI
 titulo "Instalar pacotes do sistema..."
-
-echo "Installing Nginx U..." 
-log_info "Installing Nginx UI..."
 if ! command -v nginx-ui &> /dev/null; then
     bash -c "$(curl -fsSL https://cloud.nginxui.com/install.sh)" @ install
 else
     log_warn "Nginx UI already installed, skipping..."
 fi
-
 esperar2 "sleep 5" "Atualizando..." " ${WHITE} Atualizado!"
 
 read -n 1 -s -p "Press any key to continue 61"
