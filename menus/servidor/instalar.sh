@@ -135,7 +135,6 @@ esperar2 "sleep 5" "Configurando..." " ${WHITE} Configurado!"
 sleep 5
 clear
 
-
 # Install Nginx UI
 titulo "Instalar pacotes do sistema..."
 if ! command -v nginx-ui &> /dev/null; then
