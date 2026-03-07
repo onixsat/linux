@@ -70,16 +70,15 @@ next
 #log_info "Adding Ondrej PHP PPA..."
 #sudo add-apt-repository ppa:ondrej/php -y
 #sudo apt update -y
-read -n 1 -s -p "Press any key to continue 2"
+read -n 1 -s -p "Press any key to continue 1"
 clear
+
 titulo "Instalar pacotes do sistema..."
 log_info "Installing required packages..."
 
 start_time2=$(date +%s%3N)
 
-step "Instalar pacotes"
-
-try DEBIAN_FRONTEND=noninteractive apt-get install -y \
+DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ufw \
     net-tools \
     nginx \
@@ -94,15 +93,16 @@ try DEBIAN_FRONTEND=noninteractive apt-get install -y \
     fail2ban \
     curl
 
- next
 
      end_time2=$(date +%s%3N)
     duration_ms2=$((end_time2 - start_time2))
-    echo -e "Execution: $duration_ms2"
+    echo -e "Execution1: $duration_ms2"
  # >/dev/null 2>&1 &
 esperar2 "sleep 5" "Instalando..." " ${WHITE} Instalado!"
+echo -e "Execution2: $duration_ms2"
 
-sleep 5
+#sleep 5
+read -n 1 -s -p "Press any key to continue 2"
 clear
 
 # Configure UFW (Uncomplicated Firewall)
@@ -118,7 +118,7 @@ ufw allow 'Nginx Full'
 ufw allow OpenSSH
 ufw --force enable
 
-read -n 1 -s -p "Press any key to continue 4"
+read -n 1 -s -p "Press any key to continue 3"
 clear
 
 
@@ -132,7 +132,9 @@ sudo iptables -I INPUT 1 -p tcp --dport 8443 -j ACCEPT
 sudo iptables -I INPUT 1 -p tcp --dport 9000 -j ACCEPT
 
 esperar2 "sleep 5" "Configurando..." " ${WHITE} Configurado!"
-sleep 5
+
+
+read -n 1 -s -p "Press any key to continue 4"
 clear
 
 # Install Nginx UI
@@ -143,10 +145,12 @@ else
     log_warn "Nginx UI already installed, skipping..."
 fi
 esperar2 "sleep 5" "Atualizando..." " ${WHITE} Atualizado!"
-sleep 5
+
+read -n 1 -s -p "Press any key to continue 5"
 clear
 
 titulo "Script complete!"
 esperar2 "sleep 5" "..." " ${WHITE} OK!"
-sleep 5
+
+read -n 1 -s -p "Press any key to continue 6"
 clear
