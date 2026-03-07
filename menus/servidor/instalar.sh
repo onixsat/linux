@@ -74,7 +74,12 @@ read -n 1 -s -p "Press any key to continue 2"
 clear
 titulo "Instalar pacotes do sistema..."
 log_info "Installing required packages..."
-DEBIAN_FRONTEND=noninteractive apt-get install -y \
+
+start_time2=$(date +%s%3N)
+
+step "Instalar pacotes"
+
+try DEBIAN_FRONTEND=noninteractive apt-get install -y \
     ufw \
     net-tools \
     nginx \
@@ -89,6 +94,12 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     fail2ban \
     curl
 
+ next
+
+     end_time2=$(date +%s%3N)
+    duration_ms2=$((end_time2 - start_time2))
+    echo -e "Execution: $duration_ms2"
+ # >/dev/null 2>&1 &
 esperar2 "sleep 5" "Instalando..." " ${WHITE} Instalado!"
 
 sleep 5
