@@ -89,11 +89,9 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     fail2ban \
     curl
 
-read -s -n 1 -p "Press any key to continuar xxxx!"
-clear
-echo "Pacotes instalados!"
-esperar2 "sleep 5" "Instalando..." " ${WHITE} completo!"
-read -s -n 1 -p "Press any key to continuar 3!"
+esperar2 "sleep 5" "Instalando..." " ${WHITE} Instalado!"
+
+sleep 5
 clear
 
 # Configure UFW (Uncomplicated Firewall)
@@ -112,7 +110,8 @@ ufw --force enable
 read -n 1 -s -p "Press any key to continue 4"
 clear
 
-log_info "Configuring iptables..."
+
+titulo "Configuring iptables..."
 sudo iptables -I INPUT 1 -p tcp --dport 21 -j ACCEPT
 sudo iptables -I INPUT 1 -p tcp --dport 22 -j ACCEPT
 sudo iptables -I INPUT 1 -p tcp --dport 80 -j ACCEPT
@@ -121,7 +120,8 @@ sudo iptables -I INPUT 1 -p tcp --dport 8080 -j ACCEPT
 sudo iptables -I INPUT 1 -p tcp --dport 8443 -j ACCEPT
 sudo iptables -I INPUT 1 -p tcp --dport 9000 -j ACCEPT
 
-read -n 1 -s -p "Press any key to continue 5"
+esperar2 "sleep 5" "Configurando..." " ${WHITE} Configurado!"
+sleep 5
 clear
 
 
@@ -133,10 +133,10 @@ else
     log_warn "Nginx UI already installed, skipping..."
 fi
 esperar2 "sleep 5" "Atualizando..." " ${WHITE} Atualizado!"
-
-read -n 1 -s -p "Press any key to continue 61"
+sleep 5
 clear
 
-echo "Script complete! Rebooting..." 
-read -s -n 1 -p "Press any key to reboot!"
-systemctl restart nginx
+titulo "Script complete!"
+esperar2 "sleep 5" "..." " ${WHITE} OK!"
+sleep 5
+clear
