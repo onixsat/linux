@@ -1,3 +1,7 @@
+#  https://sleeplessbeastie.eu/2023/10/30/how-to-install-packages-non-interactively-using-apt/
+
+
+
 #!/bin/bash
 function esperar2(){
   # Executar e esperar
