@@ -51,6 +51,9 @@ echo -e ""
   # Restore the cursor
   #tput cnorm
   #eval $__resultvar=$exitCode
+
+  read -n 1 -s -p "Press any key to continue 0"
+clear
 }
 
 # Update system packages
@@ -77,21 +80,25 @@ titulo "Instalar pacotes do sistema..."
 log_info "Installing required packages..."
 
 start_time2=$(date +%s%3N)
+sudo sed -i s/oneiric/precise/ /etc/apt/sources.list
+sudo apt-get -qy update
+DEBIAN_FRONTEND=noninteractive sudo apt-get -qy install ufw net-tools nginx 2>&1 | tee oi.log
 
-DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    ufw \
-    net-tools \
-    nginx \
-    php8.1-fpm \
-    php8.1-mcrypt \
-    openssh-server \
-    dos2unix \
-    certbot \
-    python3-certbot-nginx \
-    git \
-    iptables-persistent \
-    fail2ban \
-    curl
+ 
+#DEBIAN_FRONTEND=noninteractive apt-get install -y \
+#    ufw \
+#    net-tools \
+#    nginx \
+#    php8.1-fpm \
+#    php8.1-mcrypt \
+#    openssh-server \
+#    dos2unix \
+#    certbot \
+#    python3-certbot-nginx \
+#    git \
+#    iptables-persistent \
+#    fail2ban \
+#    curl
 
 
      end_time2=$(date +%s%3N)
@@ -99,7 +106,6 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y \
     echo -e "Execution1: $duration_ms2"
  # >/dev/null 2>&1 &
 esperar2 "sleep 5" "Instalando..." " ${WHITE} Instalado!"
-echo -e "Execution2: $duration_ms2"
 
 #sleep 5
 read -n 1 -s -p "Press any key to continue 2"
