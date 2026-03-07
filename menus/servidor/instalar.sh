@@ -139,7 +139,6 @@ sudo iptables -I INPUT 1 -p tcp --dport 9000 -j ACCEPT
 
 esperar2 "sleep 5" "Configurando..." " ${WHITE} Configurado!"
 
-
 read -n 1 -s -p "Press any key to continue 4"
 clear
 
