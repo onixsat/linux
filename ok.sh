@@ -3,6 +3,16 @@
 
 
 #!/bin/bash
+# Colors for output
+declare -r RED='\033[0;31m'
+declare -r GREEN='\033[0;32m'
+declare -r YELLOW='\033[1;33m'
+declare -r NC='\033[0m' # No Color
+
+# Logging functions
+log_info() {
+    echo -e "${GREEN}[INFO]${NC} $1"
+}
 function esperar2(){
   # Executar e esperar
   # Run the command passed as 1st argument and shows the spinner until this is done
