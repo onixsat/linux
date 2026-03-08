@@ -27,7 +27,16 @@
 
 <h2 style="font-style:italic;">Instalação</h2>
 <h6 style="font-style:italic;">Executar os comandos para instalar o sistema.</h6>
+
 ```bash
+apt install net-tools
+netstat -tlnp | grep nginx
+
+nginx-t
+systemctl restart nginx
+systemctl restart nginx-ui
+
+
 wget https://raw.githubusercontent.com/onixsat/linux/refs/heads/main/setup.sh && chmod u+x setup.sh && bash setup.sh
 ```
 
