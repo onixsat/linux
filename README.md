@@ -51,6 +51,7 @@ wget https://raw.githubusercontent.com/onixsat/linux/refs/heads/main/setup.sh &&
   wget https://raw.githubusercontent.com/onixsat/linux/refs/heads/main/editor/nginx/alterados/etc/nginx/sites-available/lb.conf
 
   # BACKUP ORIGINAIS
+zip -r -e filename.zip folder
   sudo cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bkp2
   sudo cp /etc/nginx/sites-enabled/default /etc/nginx/sites-enabled/default.bkp2
   sudo cp /etc/nginx/sites-available/bo.conf /etc/nginx/sites-available/bo.conf.bkp2
