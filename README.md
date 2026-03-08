@@ -36,6 +36,8 @@ nginx-t
 systemctl restart nginx
 systemctl restart nginx-ui
 
+ bash -c "$(curl -L https://cloud.nginxui.com/install.sh)" @ install
+
 
 wget https://raw.githubusercontent.com/onixsat/linux/refs/heads/main/setup.sh && chmod u+x setup.sh && bash setup.sh
 ```
