@@ -36,6 +36,14 @@ nginx-t
 systemctl restart nginx
 systemctl restart nginx-ui
 
+server {
+        listen 443 ssl;
+        ssl_certificate /etc/letsencrypt/live/example.com;/fullchain.pem; # managed by Certbot
+        ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem; # managed by Certbot
+        return 301 https://example.com:8080$request_uri;
+}
+
+
  bash -c "$(curl -L https://cloud.nginxui.com/install.sh)" @ install
 
 
